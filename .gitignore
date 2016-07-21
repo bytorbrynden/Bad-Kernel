@@ -8,6 +8,9 @@
 # AT&T Syntax Assembly files
 !*.S
 
+# Linker scripts
+!*.ld
+
 # Make files
 !Makefile
 !*.mk
