@@ -1,5 +1,5 @@
 #
-# boot.S
+# Kernel.S
 # The official entry point for the bad kernel
 #
 # Uses AT&T Syntax
@@ -49,12 +49,12 @@ stack_end: # Top of stack
     # I don't know what to put here...
 
 # This is where execution of the kernel will begin. The .global directive will
-#  make the _start symbol visible to the linker (doing so also makes this symbol
-#  visible to any other items being linked with).
+#  make the _kernelStart symbol visible to the linker (doing so also makes this
+#  symbol visible to any other items being linked with).
 .section .text
-.global _kernel
-.type _kernel, @function # Mark the _start symbol's type attribute as a function in the symbol table.
-_kernel:
+.global _kernelStart
+.type _kernelStart, @function # Mark the _kernelStart symbol's type attribute as a function in the symbol table.
+_kernelStart:
     # This should make the esp register point to the top of our stack.
     #
     # The top of the stack is where the last item push onto said stack will be
