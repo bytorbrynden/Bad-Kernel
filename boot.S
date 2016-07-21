@@ -10,17 +10,21 @@
 # .align directive   https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC70
 # .int directive     https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC98
 # .long directive    https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC108
+# .space directive   https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC126
+# .global directive  https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC93
+# .type directive    https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html#SEC133
 
 # Multiboot References:
 #  https://www.gnu.org/software/grub/manual/multiboot/html_node/Header-magic-fields.html
 #  http://fossies.org/linux/grub/include/multiboot.h
-
 .set MULTIBOOT_MAGIC,       0x1BADB002 # Used to allow the bootloader to find us
 .set MULTIBOOT_ALIGN,       0x00000001 # Used to align all boot modules on i386 page boundaries
 .set MULTIBOOT_MEMINFO,     0x00000002 # Used to pass memory information to operating system
 # According to the multiboot specification, this field in the multiboot header
 #  plus the above 3, should equal 0
 .set MULTIBOOT_CHECKSUM, -(MULTIBOOT_MAGIC + (MULTIBOOT_ALIGN + MULTIBOOT_MEMINFO))
+
+.set STACK_SIZE, 0x3E80 # The desired stack size (roughly 16KB)
 
 # The multiboot header is what marks this program as a kernel. Bootloaders look
 #  in the first 8KB of a kernel file, for this header.
@@ -39,12 +43,16 @@ multiboot_header:
 #  The "aw" flag, which marks the section as allocatable and writeable.
 #  The @nobits flag, which marks that the section doesn't contain any data.
 .section .stack, "aw", @nobits
-stack_start: # Bottom of stack, pointed to by esp register.
-    # I don't know what to do here. I assume some memory will need to be reserved
-    #  for the stack, so it can be used later on in the kernel. That being said,
-    #  I've yet to figure out how one would go about doing this.
-
-stack_end: # Top of stack, pointed to by ebx register.
+stack_start: # Bottom of stack
+    .space STACK_SIZE
+stack_end: # Top of stack
     # I don't know what to put here...
 
-# TODO...
+# This is where execution of the kernel will begin. The .global directive will
+#  make the _start symbol visible to the linker (doing so also makes this symbol
+#  visible to any other items being linked with).
+.section .text
+.global _start
+.type _start, @function # Mark the _start symbol's type attribute as a function in the symbol table.
+_start:
+    # TODO...
