@@ -55,4 +55,8 @@ stack_end: # Top of stack
 .global _start
 .type _start, @function # Mark the _start symbol's type attribute as a function in the symbol table.
 _start:
-    # TODO...
+    # This should make the esp register point to the top of our stack.
+    #
+    # The top of the stack is where the last item push onto said stack will be
+    #  located.
+    mov $stack_end, %esp
