@@ -52,9 +52,9 @@ stack_end: # Top of stack
 #  make the _start symbol visible to the linker (doing so also makes this symbol
 #  visible to any other items being linked with).
 .section .text
-.global _start
-.type _start, @function # Mark the _start symbol's type attribute as a function in the symbol table.
-_start:
+.global _kernel
+.type _kernel, @function # Mark the _start symbol's type attribute as a function in the symbol table.
+_kernel:
     # This should make the esp register point to the top of our stack.
     #
     # The top of the stack is where the last item push onto said stack will be
