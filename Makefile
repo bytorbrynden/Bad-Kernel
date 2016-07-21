@@ -21,4 +21,4 @@ prepare:
 	if [ ! -d ${_ISO} ]; then ${MD} -p ${_ISO}; fi
 
 assemble:
-	${AS} ${ROOT}/boot.S -o ${_OBJ}/boot.o
+	${AS} ${ROOT}/Kernel.S -o ${_OBJ}/Kernel.o
