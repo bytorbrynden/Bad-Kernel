@@ -1,0 +1,16 @@
+*
+!*/
+
+# C source and header files
+!*.c
+!*.h
+
+# AT&T Syntax Assembly files
+!*.S
+
+# Make files
+!Makefile
+!*.mk
+
+# Git files and folders
+!.git*
