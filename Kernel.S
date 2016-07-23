@@ -20,9 +20,10 @@
 .set MULTIBOOT_MAGIC,       0x1BADB002 # Used to allow the bootloader to find us
 .set MULTIBOOT_ALIGN,       0x00000001 # Used to align all boot modules on i386 page boundaries
 .set MULTIBOOT_MEMINFO,     0x00000002 # Used to pass memory information to operating system
+.set MULTIBOOT_FLAGS,       MULTIBOOT_ALIGN | MULTIBOOT_MEMINFO
 # According to the multiboot specification, this field in the multiboot header
 #  plus the above 3, should equal 0
-.set MULTIBOOT_CHECKSUM, -(MULTIBOOT_MAGIC + (MULTIBOOT_ALIGN + MULTIBOOT_MEMINFO))
+.set MULTIBOOT_CHECKSUM, -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)
 
 .set STACK_SIZE, 0x3E80 # The desired stack size (roughly 16KB)
 
@@ -35,8 +36,7 @@
 .align 4 # Align multiboot header to 32 bit boundary. (8 * 4 = 32)
 multiboot_header:
     .int MULTIBOOT_MAGIC
-    .int MULTIBOOT_ALIGN
-    .int MULTIBOOT_MEMINFO
+    .int MULTIBOOT_FLAGS
     .int MULTIBOOT_CHECKSUM
 
 # Stack is placed in its own section so that we can give it the following flags:
