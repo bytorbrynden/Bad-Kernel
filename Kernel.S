@@ -60,3 +60,9 @@ _kernelStart:
     # The top of the stack is where the last item push onto said stack will be
     #  located.
     mov $stack_end, %esp
+    
+    # TODO...
+
+infinity:
+    hlt
+    jmp infinity
