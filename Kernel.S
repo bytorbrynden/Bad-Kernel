@@ -61,7 +61,7 @@ _kernelStart:
     #  located.
     mov $stack_end, %esp
     
-    # TODO...
+    call kernel_entry
 
 infinity:
     hlt
