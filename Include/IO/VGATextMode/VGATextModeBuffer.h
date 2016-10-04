@@ -17,7 +17,7 @@
 #define VGA_TEXTMODE_BUFFER_WIDTH  0x50 // 80
 #define VGA_TEXTMODE_BUFFER_HEIGHT 0x19 // 25
 
-#define VGA_TEXTMODE_BUFFER_PLACEHOLDER '*'
+#define VGA_TEXTMODE_BUFFER_PLACEHOLDER ' '
 
 typedef struct
 {
@@ -30,5 +30,21 @@ typedef struct
 } VGATextModeBuffer;
 
 C_FUNC VGATextModeBuffer vga_textmode_buffer_create();
+
+C_FUNC void vga_textmode_buffer_write_c
+(
+    VGATextModeEntryChar character,    // IN: The character to write
+    int foreground,                    // IN: The foreground color
+    int background,                    // IN: The background color
+    VGATextModeBuffer *pTextmodeBuffer // IN: The buffer to write to
+);
+
+C_FUNC void vga_textmode_buffer_write_s
+(
+    const VGATextModeEntryChar *pString, // IN: The string to write
+    int foreground,                      // IN: The foreground color
+    int background,                      // IN: The background color
+    VGATextModeBuffer *pTextmodeBuffer   // IN: The buffer to write to
+);
 
 #endif

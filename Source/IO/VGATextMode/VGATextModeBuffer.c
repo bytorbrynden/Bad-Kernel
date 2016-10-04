@@ -32,3 +32,65 @@ VGATextModeBuffer vga_textmode_buffer_create()
     
     return buffer;
 }
+
+void vga_textmode_buffer_write_c
+(
+    VGATextModeEntryChar character,
+    int foreground,
+    int background,
+    VGATextModeBuffer *pTextmodeBuffer
+)
+{
+    VGATextModeColor entryColor = vga_textmode_color_create(foreground,
+        background);
+    VGATextModeEntry bufferEntry = vga_textmode_entry_create(character,
+        entryColor);
+    size_t bufferIndex = 0x0;
+    
+    if (NULL == pTextmodeBuffer)
+        return;
+    
+    if ('\n' == character)
+    {
+        pTextmodeBuffer->col = 0x0;
+        pTextmodeBuffer->row++;
+        
+        return;
+    }
+    
+    bufferIndex = (
+        pTextmodeBuffer->row * VGA_TEXTMODE_BUFFER_WIDTH + pTextmodeBuffer->col
+    );
+    
+    pTextmodeBuffer->pBuffer[bufferIndex] = bufferEntry;
+    
+    if (VGA_TEXTMODE_BUFFER_WIDTH == ++pTextmodeBuffer->col)
+    {
+        pTextmodeBuffer->col = 0x0;
+        
+        if (VGA_TEXTMODE_BUFFER_HEIGHT == ++pTextmodeBuffer->row)
+        {
+            pTextmodeBuffer->row = 0x0;
+        }
+    }
+}
+
+void vga_textmode_buffer_write_s
+(
+    const VGATextModeEntryChar *pString,
+    int foreground,
+    int background,
+    VGATextModeBuffer *pTextmodeBuffer
+)
+{
+    VGATextModeEntryChar character = 0x0;
+    
+    if (NULL == pTextmodeBuffer)
+        return;
+    
+    while ((character = (*pString++)))
+    {
+        vga_textmode_buffer_write_c(character, foreground, background,
+            pTextmodeBuffer);
+    }
+}

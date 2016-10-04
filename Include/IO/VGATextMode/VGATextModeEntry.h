@@ -11,12 +11,13 @@
 #include "VGATextModeColor.h"
 
 typedef uint16_t VGATextModeEntry;
-typedef uint16_t VGATextModeEntryChar;
+// typedef uint16_t VGATextModeEntryChar;
+typedef char VGATextModeEntryChar;
 
 C_FUNC VGATextModeEntry vga_textmode_entry_create
 (
     VGATextModeEntryChar character, // IN: Character to write
-    VGATextModeColor     color      // IN: Desired FG and BG color
+    VGATextModeColor color          // IN: Desired FG and BG color
 );
 
 #endif
