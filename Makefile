@@ -55,4 +55,5 @@ image:
 	grub-mkrescue -o bad.iso ${_ISO}
 
 ${_OBJ}/c/%.o: ${_SRC}/%.c
+	${MD} -p $(dir $@)
 	${CC} ${CC_FLAGS} $^ -o $@

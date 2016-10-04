@@ -6,5 +6,5 @@
 
 void kernel_entry()
 {
-    // TODO...
+    VGATextModeBuffer buffer = vga_textmode_buffer_create();
 }
