@@ -53,7 +53,9 @@ void vga_textmode_buffer_write_c
     if ('\n' == character)
     {
         pTextmodeBuffer->col = 0x0;
-        pTextmodeBuffer->row++;
+        
+        if (VGA_TEXTMODE_BUFFER_HEIGHT == ++pTextmodeBuffer->row)
+            pTextmodeBuffer->row = 0x0;
         
         return;
     }
