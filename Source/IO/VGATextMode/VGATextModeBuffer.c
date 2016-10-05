@@ -54,7 +54,7 @@ void vga_textmode_buffer_increase_row
                 // TODO (Giga): Use a better name for this variable.
                 size_t i = row * VGA_TEXTMODE_BUFFER_WIDTH + col;
                 
-                if (VGA_TEXTMODE_BUFFER_HEIGHT > (row + 1))
+                if (VGA_TEXTMODE_BUFFER_HEIGHT >= (row + 1))
                 {
                     // TODO (Giga): Use a better name for this variable.
                     size_t j = (row + 1) * VGA_TEXTMODE_BUFFER_WIDTH + col;
