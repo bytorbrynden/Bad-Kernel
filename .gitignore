@@ -17,3 +17,6 @@
 
 # Git files and folders
 !.git*
+
+# Markdown files
+!*.md
