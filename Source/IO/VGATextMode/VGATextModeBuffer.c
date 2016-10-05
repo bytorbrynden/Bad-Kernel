@@ -42,7 +42,31 @@ void vga_textmode_buffer_increase_row
         return;
     
     if (VGA_TEXTMODE_BUFFER_HEIGHT == ++pTextmodeBuffer->row)
-        pTextmodeBuffer->row = 0x0;
+    {
+        // Welcome, to [simulated] scrolling. The following code, which isn't
+        //  very efficient, does nothing more than shift all of the buffer's
+        //  contents up by 1 row. It also disgards the topmost row.
+        
+        for (size_t row = 0x0; row < VGA_TEXTMODE_BUFFER_HEIGHT; ++row)
+        {
+            for (size_t col = 0x0; col < VGA_TEXTMODE_BUFFER_WIDTH; ++col)
+            {
+                // TODO (Giga): Use a better name for this variable.
+                size_t i = row * VGA_TEXTMODE_BUFFER_WIDTH + col;
+                
+                if (VGA_TEXTMODE_BUFFER_HEIGHT > (row + 1))
+                {
+                    // TODO (Giga): Use a better name for this variable.
+                    size_t j = (row + 1) * VGA_TEXTMODE_BUFFER_WIDTH + col;
+                    
+                    pTextmodeBuffer->pBuffer[i] = pTextmodeBuffer->pBuffer[j];
+                }
+            }
+        }
+        
+        // We're always on the next-to-last row once this runs.
+        pTextmodeBuffer->row = (VGA_TEXTMODE_BUFFER_HEIGHT - 1);
+    }
     
     pTextmodeBuffer->col = 0x0;
 }
