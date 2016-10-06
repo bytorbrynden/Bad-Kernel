@@ -61,7 +61,36 @@ _kernelStart:
     #  located.
     mov $stack_end, %esp
     
+    #lgdt (gdtReference)
+    #ljmp $0x08, $reloadSelectors
+    
     call kernel_entry
+    jmp infinity
+
+#gdtEntries:
+#    .gdtNull:
+#        gdtNullBase:  .int 0x0
+#        gdtNullLimit: .int 0x0
+#    
+#    .gdtCode:
+#        gdtCodeBase:  .int 0x0
+#        gdtCodeLimit: .int 0xffffffff
+#    
+#    .gdtData:
+#        gdtDataBase:  .int 0x0
+#        gdtDataLimit: .int 0xffffffff
+#
+#gdtReference:
+#    gdtRefLimit: .word gdtReference - gdtEntries - 1
+#    gdtRefBase:  .int gdtEntries
+#
+#reloadSelectors:
+#    mov $0x10, %ax
+#    mov %ax,   %ds
+#    mov %ax,   %es
+#    mov %ax,   %fs
+#    mov %ax,   %gs
+#    mov %ax,   %ss
 
 infinity:
     hlt
