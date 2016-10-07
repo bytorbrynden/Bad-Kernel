@@ -67,30 +67,37 @@ _kernelStart:
     call kernel_entry
     jmp infinity
 
-#gdtEntries:
-#    .gdtNull:
-#        gdtNullBase:  .int 0x0
-#        gdtNullLimit: .int 0x0
-#    
-#    .gdtCode:
-#        gdtCodeBase:  .int 0x0
-#        gdtCodeLimit: .int 0xffffffff
-#    
-#    .gdtData:
-#        gdtDataBase:  .int 0x0
-#        gdtDataLimit: .int 0xffffffff
-#
-#gdtReference:
-#    gdtRefLimit: .word gdtReference - gdtEntries - 1
-#    gdtRefBase:  .int gdtEntries
-#
-#reloadSelectors:
-#    mov $0x10, %ax
-#    mov %ax,   %ds
-#    mov %ax,   %es
-#    mov %ax,   %fs
-#    mov %ax,   %gs
-#    mov %ax,   %ss
+gdtEntriesStart:
+
+    gdtNullEntry:
+        .int 0x0 # Limit
+        .int 0x0 # Base
+    
+    gdtCodeEntry:
+        .int 0xFFFFFFFF # Limit
+        .int 0x00000000 # Base
+    
+    gdtDataEntry:
+        .int 0xFFFFFFFF # Limit
+        .int 0x00000000 # Base
+
+gdtEntriesEnd:
+
+gdtReference:
+    .word gdtEntriesEnd - gdtEntriesStart - 1
+    .int gdtEntriesStart
+
+.set CODE_SEGMENT, gdtCodeEntry - gdtEntriesStart
+.set DATA_SEGMENT, gdtDataEntry - gdtEntriesStart
+
+reloadSelectors:
+    mov DATA_SEGMENT, %ax
+    mov %ax,   %ds
+    mov %ax,   %es
+    mov %ax,   %fs
+    mov %ax,   %gs
+    mov %ax,   %ss
+    ret
 
 infinity:
     hlt
