@@ -20,3 +20,6 @@
 
 # Markdown files
 !*.md
+
+# Make sure the cross-compiler is never included
+Tools/cc
