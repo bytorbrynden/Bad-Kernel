@@ -31,6 +31,27 @@ some of the values! Comments like those are included to help encourage you to
 get your hands dirty. Hopefully after messing around with them a bit, you'll
 have a better understanding of that part of the kernel.
 
-**Please note** that if you plan to mess with the code, you'll need some other
-tools. I will include my own instructions on how to set these up, at a later
-date. For now, however, you can [reference this](http://wiki.osdev.org/GCC_Cross-Compiler).
+**Please note** that if you plan to make changesto  the code, you'll need some
+other tools. If you're on a Linux-based OS, you can take advantage of the script
+I wrote to set these tools up.
+
+If you want to use my script, open a shell, and navigate to the location in
+which you cloned this repository, and run the following:
+
+```bash
+$ cd Tools
+$ make build_cc
+```
+
+[This script](./Tools/Makefile), will attempt to download the required version
+of GNU Binutils, as well as the version of GCC that is required. Once the
+download operation is completed, the script will extract the downloaded files,
+and begin launching the scripts necessary to build them. This process can take a
+while, depending on your machine.
+
+## Inspiration
+The main inspiration for this project, was me wanting to learn more about
+everything that goes into kernel development. On top of that, there are a couple
+open-source kernels that helped to inspire me to write my own kernel:
+
+ - [PowerNex](https://github.com/Vild/PowerNex)
