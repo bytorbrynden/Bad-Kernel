@@ -61,25 +61,34 @@ _kernelStart:
     #  located.
     mov $stack_end, %esp
     
-    #lgdt (gdtReference)
-    #ljmp $0x08, $reloadSelectors
-    
-    call kernel_entry
-    jmp infinity
+    lgdt (gdtReference)
+    jmp reloadSelectors
 
 gdtEntriesStart:
 
     gdtNullEntry:
-        .int 0x0 # Limit
-        .int 0x0 # Base
+        .word 0x0 # Limit
+        .word 0x0 # Base
+        .byte 0x0
+        .byte 0x0
+        .byte 0x0
+        .byte 0x0
     
     gdtCodeEntry:
-        .int 0xFFFFFFFF # Limit
-        .int 0x00000000 # Base
+        .word 0xFFFFFFFF # Limit
+        .word 0x00000000 # Base
+        .byte 0x0
+        .byte 0x9A # 1001 1010
+        .byte 0xCF # 1100 1111
+        .byte 0x0
     
     gdtDataEntry:
-        .int 0xFFFFFFFF # Limit
-        .int 0x00000000 # Base
+        .word 0xFFFFFFFF # Limit
+        .word 0x00000000 # Base
+        .byte 0x0
+        .byte 0x92 # 1001 0010
+        .byte 0xCF # 1100 1111
+        .byte 0x0
 
 gdtEntriesEnd:
 
@@ -91,13 +100,17 @@ gdtReference:
 .set DATA_SEGMENT, gdtDataEntry - gdtEntriesStart
 
 reloadSelectors:
-    mov DATA_SEGMENT, %ax
-    mov %ax,   %ds
-    mov %ax,   %es
-    mov %ax,   %fs
-    mov %ax,   %gs
-    mov %ax,   %ss
-    ret
+    mov $DATA_SEGMENT, %ax
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+    mov %ax, %ss
+    ljmp $CODE_SEGMENT, $highLevelKernel
+
+highLevelKernel:
+    call kernel_entry
+    jmp infinity
 
 infinity:
     hlt
