@@ -11,6 +11,9 @@
 # Linker scripts
 !*.ld
 
+# Grub config file
+!grub.cfg
+
 # Make files
 !Makefile
 !*.mk
@@ -23,3 +26,6 @@
 
 # Make sure the cross-compiler is never included
 Tools/cc
+
+# Make sure the built files are never included
+Build/
