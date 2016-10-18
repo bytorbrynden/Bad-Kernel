@@ -1,5 +1,5 @@
 #
-# Kernel.S
+# Source/Kernel.S
 # The official entry point for the bad kernel
 #
 # Uses AT&T Syntax
@@ -62,6 +62,7 @@ _kernelStart:
     mov $stack_end, %esp
     
     lgdt (gdtReference)
+    
     jmp reloadSelectors
 
 gdtEntriesStart:
@@ -110,6 +111,7 @@ reloadSelectors:
 
 highLevelKernel:
     call kernel_entry
+    #cli
     jmp infinity
 
 infinity:

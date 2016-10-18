@@ -12,8 +12,8 @@ kernel development, can use this as a "template" for their own kernels.
 ## Where should you start?
 You're more than welcome to start anywhere you want, however, if you want to
 start at the *very* beginning, I'd recommend checking out
-[Kernel.S](./Kernel.S). Yes, it's written in Assembly, but it's really quite
-simple.
+[Kernel.S](./Source/Kernel.S). Yes, it's written in Assembly, but it's really
+quite simple.
 
 I'd suggest you take a bit of time browsing the code, paying close attention to
 any comments provided. If at any point in time you come across a term (or
