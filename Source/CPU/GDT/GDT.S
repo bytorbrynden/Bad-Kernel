@@ -3,7 +3,8 @@
 #
 # Uses AT&T Syntax
 #
-#.section .text
+.section .text
+.code32
 .global initializeGDT
 initializeGDT:
     lgdt (gdtReference)
@@ -38,7 +39,6 @@ gdtEntriesStart:
 
 gdtEntriesEnd:
 
-#.global gdtReference
 gdtReference:
     .word gdtEntriesEnd - gdtEntriesStart - 1
     .int gdtEntriesStart
@@ -46,7 +46,6 @@ gdtReference:
 .set CODE_SEGMENT, gdtCodeEntry - gdtEntriesStart
 .set DATA_SEGMENT, gdtDataEntry - gdtEntriesStart
 
-#.global reloadSegments
 reloadSegments:
     mov $DATA_SEGMENT, %ax
     mov %ax, %ds
